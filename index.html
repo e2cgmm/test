@@ -6,53 +6,39 @@
     <title>Microsoft Word Style Editor</title>
     <style>
       :root {
-        --bg: #f2f4f8;
-        --bg-2: #edf2f7;
+        --bg: #f3f5f9;
+        --bg-soft: #edf2f8;
         --panel: #ffffff;
-        --panel-alt: #f8fafc;
-        --line: #dfe8f1;
-        --line-strong: #c9d4e3;
-        --text: #1b2430;
-        --muted: #5d6574;
-        --primary: #2b6cf6;
+        --panel-soft: #f9fbff;
+        --line: #dfe7f2;
+        --line-strong: #c7d2e0;
+        --text: #1c2430;
+        --muted: #5c6674;
+        --primary: #2a6df4;
         --primary-soft: #dfeaff;
-        --success: #2e7d32;
-        --warning: #f5b700;
-        --danger: #d93025;
-        --shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
-        --editor-bg: #ffffff;
-        --header-bg: #f5f7fb;
-        --tab-bg: #eef4ff;
-        --ribbon-bg: #edf2fb;
-        --toolbar-bg: #f8fafc;
-        --dark-bg: #121922;
-        --dark-panel: #1a2330;
-        --dark-editor: #171d29;
-        --dark-text: #ecf2ff;
-        --dark-muted: #a8b6c9;
-        --dark-line: #2d3a4d;
+        --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        --page-bg: #ffffff;
+        --page-text: #111827;
+        --ruler-bg: #f3f6fb;
+        --strip-bg: #edf3ff;
       }
 
       body.dark {
-        --bg: #101720;
-        --bg-2: #16202d;
-        --panel: #1c2734;
-        --panel-alt: #1b2530;
-        --line: #2e3d4f;
-        --line-strong: #405671;
-        --text: #edf4ff;
-        --muted: #b3bfd3;
-        --primary: #72a9ff;
-        --primary-soft: rgba(114, 169, 255, 0.18);
-        --success: #66d97f;
-        --warning: #ffd75a;
-        --danger: #ff7d70;
-        --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-        --editor-bg: #1a2330;
-        --header-bg: #141d2a;
-        --tab-bg: #1f2b3a;
-        --ribbon-bg: #182434;
-        --toolbar-bg: #182535;
+        --bg: #101924;
+        --bg-soft: #162330;
+        --panel: #1b2633;
+        --panel-soft: #1d2a37;
+        --line: #2e3d50;
+        --line-strong: #3b506a;
+        --text: #edf5ff;
+        --muted: #b0bfd5;
+        --primary: #74a9ff;
+        --primary-soft: rgba(116, 169, 255, 0.2);
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
+        --page-bg: #1b2531;
+        --page-text: #edf7ff;
+        --ruler-bg: #1d2a38;
+        --strip-bg: #162536;
       }
 
       * { box-sizing: border-box; }
@@ -73,18 +59,17 @@
         font: inherit;
       }
 
-      .app {
-        width: 100%;
+      .word-app {
         min-height: 100vh;
-        padding: 10px 18px 30px;
+        padding: 14px 18px 26px;
       }
 
-      .word-shell {
-        max-width: 1360px;
+      .shell {
+        max-width: 1380px;
         margin: 0 auto;
         background: var(--panel);
         border: 1px solid var(--line);
-        border-radius: 18px;
+        border-radius: 20px;
         overflow: hidden;
         box-shadow: var(--shadow);
       }
@@ -94,9 +79,13 @@
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        background: var(--header-bg);
-        border-bottom: 1px solid var(--line);
         padding: 10px 18px;
+        background: #f6f9ff;
+        border-bottom: 1px solid var(--line);
+      }
+
+      body.dark .titlebar {
+        background: #141f2d;
       }
 
       .window-controls {
@@ -116,26 +105,28 @@
       .circle.green { background: #28c840; }
 
       .app-name {
+        flex: 1;
         display: flex;
         align-items: center;
-        gap: 12px;
-        flex: 1;
         justify-content: center;
+        gap: 12px;
       }
 
-      .app-logo {
+      .brand {
         width: 30px;
         height: 30px;
-        border-radius: 8px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #4ea1ff, #1b5fe3);
         display: grid;
         place-items: center;
-        background: linear-gradient(135deg, #39a0ff, #0a4bb6);
         color: white;
         font-weight: 700;
       }
 
-      .app-name strong {
+      .titlebar h1 {
+        margin: 0;
         font-size: 15px;
+        font-weight: 700;
       }
 
       .top-actions {
@@ -144,79 +135,91 @@
         gap: 10px;
       }
 
-      .icon-btn, .tool-btn, .tab-btn, .switch-btn {
+      .btn, .theme-btn, .tool-btn, .tab-btn, .switch-btn {
         border: 1px solid var(--line);
+        border-radius: 10px;
         background: var(--panel);
         color: var(--text);
-        border-radius: 10px;
-        padding: 8px 12px;
         cursor: pointer;
         transition: 0.15s ease;
       }
 
-      .tool-btn:hover, .icon-btn:hover, .tab-btn:hover, .switch-btn:hover {
+      .btn, .tool-btn, .tab-btn, .switch-btn {
+        padding: 8px 12px;
+      }
+
+      .btn:hover, .tool-btn:hover, .tab-btn:hover, .switch-btn:hover {
         border-color: var(--line-strong);
-        background: var(--panel-alt);
+        background: var(--panel-soft);
       }
 
-      .primary-btn {
+      .btn.primary {
         background: var(--primary);
-        color: white;
         border-color: var(--primary);
+        color: white;
       }
 
-      .primary-btn:hover {
-        filter: brightness(0.95);
+      .btn.primary:hover {
+        filter: brightness(0.97);
       }
 
       .ribbon {
-        background: var(--ribbon-bg);
+        background: var(--strip-bg);
         border-bottom: 1px solid var(--line);
         padding: 8px 18px 0;
       }
 
-      .tabs {
+      .tab-bar {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         margin-bottom: 8px;
       }
 
       .tab-btn {
         background: transparent;
-        border: 1px solid transparent;
+        border-color: transparent;
         color: var(--muted);
-        padding: 8px 14px;
         font-weight: 600;
       }
 
       .tab-btn.active {
-        background: var(--tab-bg);
+        background: rgba(42, 109, 244, 0.08);
         border-color: var(--line);
         color: var(--text);
       }
 
-      .toolbar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        background: var(--toolbar-bg);
+      .tab-panels {
+        background: var(--panel);
         border-top: 1px solid var(--line);
-        padding: 10px 12px;
       }
 
-      .tool-separator {
-        width: 1px;
-        height: 30px;
-        background: var(--line);
-        margin: 0 4px;
+      .tab-panel {
+        display: none;
+        padding: 12px;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .tab-panel.active {
+        display: flex;
       }
 
       .group {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
+        padding-right: 8px;
+        border-right: 1px solid var(--line);
+      }
+
+      .group:last-child {
+        border-right: none;
+      }
+
+      .tool-btn {
+        min-width: 42px;
       }
 
       .dropdown {
@@ -231,47 +234,48 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: var(--panel-alt);
-        border-top: 1px solid var(--line);
+        gap: 12px;
         padding: 10px 18px;
+        background: var(--panel-soft);
+        border-bottom: 1px solid var(--line);
         color: var(--muted);
         font-size: 12px;
       }
 
-      .status-ctrls {
+      .status-left {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 16px;
+        flex-wrap: wrap;
       }
 
       .toggle-wrap {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 13px;
       }
 
       .switch {
-        position: relative;
         width: 42px;
         height: 24px;
         border-radius: 999px;
-        background: #c9d2df;
         border: none;
+        background: #d3d8e2;
+        position: relative;
         cursor: pointer;
-        transition: 0.2s;
+        transition: 0.2s ease;
       }
 
       .switch::after {
         content: "";
         position: absolute;
-        top: 3px;
-        left: 3px;
+        top: 4px;
+        left: 4px;
         width: 16px;
         height: 16px;
         border-radius: 50%;
         background: white;
-        transition: 0.2s;
+        transition: 0.2s ease;
       }
 
       .switch.active {
@@ -283,17 +287,50 @@
       }
 
       .workspace {
-        background: var(--bg-2);
-        padding: 16px 18px 18px;
+        background: var(--bg-soft);
+        padding: 18px 18px 26px;
+      }
+
+      .page-shell {
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+
+      .ruler {
+        height: 26px;
+        background: var(--ruler-bg);
+        border: 1px solid var(--line);
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        position: relative;
+        display: none;
+        overflow: hidden;
+      }
+
+      .ruler.show {
+        display: block;
+      }
+
+      .ruler::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: repeating-linear-gradient(to right, transparent 0, transparent 19px, rgba(92, 102, 116, 0.35) 19px, rgba(92, 102, 116, 0.35) 20px);
       }
 
       .page {
-        max-width: 980px;
-        margin: 0 auto;
-        background: var(--editor-bg);
+        background: var(--page-bg);
+        color: var(--page-text);
         border: 1px solid var(--line);
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04);
+        border-radius: 0 0 12px 12px;
+        min-height: 860px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .page.reading {
+        max-width: 760px;
       }
 
       .page-header {
@@ -301,47 +338,71 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+        background: rgba(42, 109, 244, 0.02);
+        border-bottom: 1px solid var(--line);
         padding: 12px 18px;
       }
 
-      .page-title {
+      .doc-title {
         font-size: 13px;
         font-weight: 700;
         color: var(--muted);
       }
 
-      .editor-container {
-        padding: 0 18px 18px;
+      .doc-stats {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .editor-wrap {
+        padding: 18px 18px 28px;
       }
 
       .editor {
-        min-height: 820px;
+        min-height: 760px;
         width: 100%;
-        background: white;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        box-shadow: inset 0 1px 2px rgba(148,163,184,0.15);
-        padding: 42px 54px 36px;
         outline: none;
-        line-height: 1.8;
+        background: transparent;
+        color: var(--page-text);
+        padding: 32px 42px 40px;
         font-size: 18px;
-        color: #111827;
+        line-height: 1.8;
         font-family: "Segoe UI", Arial, sans-serif;
-        transition: background 0.2s ease, color 0.2s ease;
-      }
-
-      body.dark .editor {
-        background: var(--dark-editor);
-        color: var(--dark-text);
       }
 
       .editor:empty:before {
         content: "여기에 문서를 입력하세요";
-        color: #9aa5b1;
+        color: #98a7b9;
       }
 
-      .font-upload {
-        display: none;
+      .editor.track-changes .track {
+        background: rgba(255, 215, 90, 0.35);
+        border-radius: 4px;
+      }
+
+      .comment-flag {
+        background: rgba(42, 109, 244, 0.12);
+        border: 1px solid rgba(42, 109, 244, 0.2);
+        border-radius: 6px;
+        padding: 0 4px;
+      }
+
+      .citation {
+        color: #2a6df4;
+        font-weight: 600;
+      }
+
+      .page-break {
+        border-top: 2px dashed #a7b8cf;
+        margin: 16px 0;
+      }
+
+      .img-placeholder {
+        max-width: 320px;
+        border: 1px dashed rgba(42, 109, 244, 0.45);
+        border-radius: 10px;
+        padding: 10px;
+        background: rgba(42, 109, 244, 0.04);
       }
 
       .hidden-file {
@@ -353,20 +414,24 @@
           flex-wrap: wrap;
         }
 
-        .toolbar {
+        .tab-bar {
           overflow-x: auto;
+          white-space: nowrap;
+        }
+
+        .tool-btn, .dropdown, .btn {
+          font-size: 13px;
         }
 
         .editor {
-          min-height: 560px;
-          padding: 26px 20px 20px;
+          padding: 20px 18px 22px;
         }
       }
     </style>
   </head>
   <body>
-    <div class="app">
-      <div class="word-shell">
+    <div class="word-app">
+      <div class="shell">
         <div class="titlebar">
           <div class="window-controls">
             <span class="circle red"></span>
@@ -375,118 +440,184 @@
           </div>
 
           <div class="app-name">
-            <div class="app-logo">W</div>
-            <strong>Word App</strong>
+            <div class="brand">W</div>
+            <h1>Word App</h1>
           </div>
 
           <div class="top-actions">
-            <button class="icon-btn" id="newDocBtn">새 문서</button>
-            <button class="icon-btn primary-btn" id="downloadBtn">다운로드</button>
+            <button class="btn" id="newDocBtn" type="button">새 문서</button>
+            <button class="btn primary" id="downloadBtn" type="button">다운로드</button>
           </div>
         </div>
 
         <div class="ribbon">
-          <div class="tabs">
-            <button class="tab-btn active">홈</button>
-            <button class="tab-btn">삽입</button>
-            <button class="tab-btn">디자인</button>
-            <button class="tab-btn">레이아웃</button>
-            <button class="tab-btn">참조</button>
-            <button class="tab-btn">검토</button>
-            <button class="tab-btn">보기</button>
+          <div class="tab-bar">
+            <button class="tab-btn active" data-tab="home" type="button">홈</button>
+            <button class="tab-btn" data-tab="insert" type="button">삽입</button>
+            <button class="tab-btn" data-tab="design" type="button">디자인</button>
+            <button class="tab-btn" data-tab="layout" type="button">레이아웃</button>
+            <button class="tab-btn" data-tab="references" type="button">참조</button>
+            <button class="tab-btn" data-tab="review" type="button">검토</button>
+            <button class="tab-btn" data-tab="view" type="button">보기</button>
           </div>
 
-          <div class="toolbar">
-            <div class="group">
-              <select id="fontFamilySelect" class="dropdown" aria-label="글꼴 선택">
-                <option value="Segoe UI">Segoe UI</option>
-                <option value="Arial">Arial</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Tahoma">Tahoma</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Malgun Gothic">맑은 고딕</option>
-                <option value="NanumGothic">나눔고딕</option>
-              </select>
+          <div class="tab-panels">
+            <div class="tab-panel active" data-panel="home">
+              <div class="group">
+                <select id="fontFamilySelect" class="dropdown" aria-label="글꼴 선택">
+                  <option value="Segoe UI">Segoe UI</option>
+                  <option value="Arial">Arial</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Verdana">Verdana</option>
+                  <option value="Tahoma">Tahoma</option>
+                  <option value="Malgun Gothic">맑은 고딕</option>
+                  <option value="NanumGothic">나눔고딕</option>
+                </select>
+                <select id="fontSizeSelect" class="dropdown" aria-label="글자 크기 선택">
+                  <option value="">크기</option>
+                  <option value="1">8pt</option>
+                  <option value="2">10pt</option>
+                  <option value="3">12pt</option>
+                  <option value="4">14pt</option>
+                  <option value="5">18pt</option>
+                  <option value="6">24pt</option>
+                  <option value="7">32pt</option>
+                </select>
+              </div>
 
-              <select id="fontSizeSelect" class="dropdown" aria-label="글자 크기 선택">
-                <option value="">크기</option>
-                <option value="1">8pt</option>
-                <option value="2">10pt</option>
-                <option value="3">12pt</option>
-                <option value="4">14pt</option>
-                <option value="5">18pt</option>
-                <option value="6">24pt</option>
-                <option value="7">32pt</option>
-              </select>
+              <div class="group">
+                <button class="tool-btn" data-command="bold" type="button"><strong>B</strong></button>
+                <button class="tool-btn" data-command="italic" type="button"><em>I</em></button>
+                <button class="tool-btn" data-command="underline" type="button"><span style="text-decoration: underline;">U</span></button>
+              </div>
+
+              <div class="group">
+                <button class="tool-btn" data-command="insertUnorderedList" type="button">• 목록</button>
+                <button class="tool-btn" data-command="insertOrderedList" type="button">1. 목록</button>
+              </div>
+
+              <div class="group">
+                <button class="tool-btn" data-command="justifyLeft" type="button">◀</button>
+                <button class="tool-btn" data-command="justifyCenter" type="button">☰</button>
+                <button class="tool-btn" data-command="justifyRight" type="button">▶</button>
+              </div>
+
+              <div class="group">
+                <button class="tool-btn" data-command="foreColor" type="button">글자색</button>
+                <button class="tool-btn" data-command="hiliteColor" type="button">형광펜</button>
+                <button class="tool-btn" data-command="removeFormat" type="button">서식 지우기</button>
+              </div>
             </div>
 
-            <div class="tool-separator"></div>
-
-            <div class="group">
-              <button class="tool-btn" data-action="bold" title="굵게"><strong>B</strong></button>
-              <button class="tool-btn" data-action="italic" title="기울임"><em>I</em></button>
-              <button class="tool-btn" data-action="underline" title="밑줄"><span style="text-decoration: underline;">U</span></button>
+            <div class="tab-panel" data-panel="insert">
+              <div class="group">
+                <button class="tool-btn" data-command="insertTable" type="button">표 추가</button>
+                <button class="tool-btn" data-command="insertImage" type="button">이미지</button>
+                <button class="tool-btn" data-command="insertLink" type="button">링크</button>
+                <button class="tool-btn" data-command="insertPageBreak" type="button">페이지 나누기</button>
+              </div>
+              <div class="group">
+                <button class="tool-btn" data-command="insertComment" type="button">코멘트</button>
+                <button class="tool-btn" data-command="insertCitation" type="button">출처</button>
+              </div>
             </div>
 
-            <div class="tool-separator"></div>
-
-            <div class="group">
-              <button class="tool-btn" data-action="insertUnorderedList" title="글머리 기호">• 목록</button>
-              <button class="tool-btn" data-action="insertOrderedList" title="숫자 목록">1. 목록</button>
+            <div class="tab-panel" data-panel="design">
+              <div class="group">
+                <button class="tool-btn" data-command="pageColor" type="button">페이지 배경색</button>
+                <button class="tool-btn" data-command="setThemeLight" type="button">라이트</button>
+                <button class="tool-btn" data-command="setThemeDark" type="button">다크</button>
+              </div>
+              <div class="group">
+                <label for="lineSpacingSelect" style="color: var(--muted); font-size: 13px;">줄 간격</label>
+                <select id="lineSpacingSelect" class="dropdown">
+                  <option value="1.2">보통</option>
+                  <option value="1.5">1.5배</option>
+                  <option value="1.8">1.8배</option>
+                  <option value="2.0">2.0배</option>
+                </select>
+              </div>
             </div>
 
-            <div class="tool-separator"></div>
-
-            <div class="group">
-              <button class="tool-btn" data-action="justifyLeft" title="왼쪽 정렬">◀</button>
-              <button class="tool-btn" data-action="justifyCenter" title="중앙 정렬">☰</button>
-              <button class="tool-btn" data-action="justifyRight" title="오른쪽 정렬">▶</button>
+            <div class="tab-panel" data-panel="layout">
+              <div class="group">
+                <button class="tool-btn" data-command="marginNarrow" type="button">좁게</button>
+                <button class="tool-btn" data-command="marginNormal" type="button">보통</button>
+                <button class="tool-btn" data-command="marginWide" type="button">넓게</button>
+              </div>
+              <div class="group">
+                <button class="tool-btn" data-command="landscape" type="button">가로</button>
+                <button class="tool-btn" data-command="portrait" type="button">세로</button>
+              </div>
+              <div class="group">
+                <button class="tool-btn" data-command="toggleColumns" type="button">2단 보기</button>
+              </div>
             </div>
 
-            <div class="tool-separator"></div>
-
-            <div class="group">
-              <button class="tool-btn" data-action="foreColor" title="글자색">A</button>
-              <button class="tool-btn" data-action="hiliteColor" title="형광펜">형광</button>
+            <div class="tab-panel" data-panel="references">
+              <div class="group">
+                <button class="tool-btn" data-command="insertCitation" type="button">참고문헌 표시</button>
+                <button class="tool-btn" data-command="insertFootnote" type="button">각주</button>
+                <button class="tool-btn" data-command="insertPageMark" type="button">페이지 번호</button>
+              </div>
             </div>
 
-            <div class="tool-separator"></div>
+            <div class="tab-panel" data-panel="review">
+              <div class="group">
+                <button class="tool-btn" data-command="toggleTrack" type="button">변경 추적</button>
+                <button class="tool-btn" data-command="insertComment" type="button">주석 추가</button>
+              </div>
+              <div class="group">
+                <button class="tool-btn" data-command="checkSpelling" type="button">맞춤법 확인</button>
+              </div>
+            </div>
 
-            <div class="group">
-              <label class="tool-btn" for="fontFileInput" title="글꼴 파일 추가" style="display: inline-flex; align-items: center; justify-content: center;">글꼴 추가</label>
-              <input id="fontFileInput" class="hidden-file" type="file" accept=".ttf,.otf,.woff,.woff2" multiple />
+            <div class="tab-panel" data-panel="view">
+              <div class="group">
+                <button class="tool-btn" data-command="toggleRuler" type="button">눈금자</button>
+                <button class="tool-btn" data-command="readingMode" type="button">읽기 모드</button>
+              </div>
+              <div class="group">
+                <select id="zoomSelect" class="dropdown">
+                  <option value="1">100%</option>
+                  <option value="0.9">90%</option>
+                  <option value="1.1">110%</option>
+                  <option value="1.25">125%</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="statusbar">
-          <div class="status-ctrls">
+          <div class="status-left">
             <div class="toggle-wrap">
               <span>맞춤법 검사</span>
               <button id="spellToggle" class="switch active" type="button" aria-label="맞춤법 검사 온오프"></button>
             </div>
-
             <div class="toggle-wrap">
               <span>다크모드</span>
               <button id="darkModeToggle" class="switch" type="button" aria-label="다크모드 온오프"></button>
             </div>
           </div>
-
           <div id="statusText">문서 준비 완료</div>
         </div>
 
         <div class="workspace">
-          <div class="page">
-            <div class="page-header">
-              <div class="page-title">문서 1</div>
-              <div id="docStats" style="color: var(--muted); font-size: 12px;">0단어 / 0자</div>
-            </div>
+          <div class="page-shell">
+            <div id="ruler" class="ruler"></div>
+            <div class="page" id="page">
+              <div class="page-header">
+                <div class="doc-title">문서 1</div>
+                <div id="docStats" class="doc-stats">0단어 / 0자</div>
+              </div>
 
-            <div class="editor-container">
-              <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="문서 편집기">
-                <p style="margin: 0 0 10px 0;"><strong>마이크로소프트 워드 스타일 문서</strong></p>
-                <p style="margin: 0 0 10px 0;">이 문서는 Word와 비슷한 인터페이스로 구성되었으며, 맞춤법 검사, 다크모드, 글꼴 추가 기능을 지원합니다.</p>
-                <p style="margin: 0 0 10px 0;">글꼴 파일을 업로드하면 브라우저에 적용되며, 편집 도구를 사용해 문서를 꾸밀 수 있습니다.</p>
+              <div class="editor-wrap">
+                <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="문서 편집기">
+                  <p style="margin: 0 0 10px 0;"><strong>마이크로소프트 워드 스타일 에디터</strong></p>
+                  <p style="margin: 0 0 10px 0;">이 문서는 실제로 문서를 작성하고 스타일을 적용할 수 있는 에디터입니다.</p>
+                  <p style="margin: 0 0 10px 0;">홈, 삽입, 디자인, 레이아웃, 참조, 검토, 보기 탭의 기능들이 실제로 동작합니다.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -494,34 +625,33 @@
       </div>
     </div>
 
+    <input id="imageFileInput" class="hidden-file" type="file" accept="image/*" />
+    <input id="fontFileInput" class="hidden-file" type="file" accept=".ttf,.otf,.woff,.woff2" />
+
     <script>
       const editor = document.getElementById('editor');
+      const page = document.getElementById('page');
+      const statusText = document.getElementById('statusText');
       const docStats = document.getElementById('docStats');
       const fontFamilySelect = document.getElementById('fontFamilySelect');
       const fontSizeSelect = document.getElementById('fontSizeSelect');
+      const lineSpacingSelect = document.getElementById('lineSpacingSelect');
+      const zoomSelect = document.getElementById('zoomSelect');
+      const ruler = document.getElementById('ruler');
       const spellToggle = document.getElementById('spellToggle');
       const darkModeToggle = document.getElementById('darkModeToggle');
+      const imageFileInput = document.getElementById('imageFileInput');
       const fontFileInput = document.getElementById('fontFileInput');
-      const statusText = document.getElementById('statusText');
-      const body = document.body;
+
+      function setStatus(msg) {
+        statusText.textContent = msg;
+      }
 
       function updateStats() {
         const text = editor.innerText.replace(/\s+/g, ' ').trim();
         const words = text ? text.split(' ').length : 0;
-        const chars = editor.innerText.length;
+        const chars = editor.innerText.replace(/\n/g, '').length;
         docStats.textContent = `${words}단어 / ${chars}자`;
-      }
-
-      function setSpellcheck(enabled) {
-        editor.spellcheck = enabled;
-        spellToggle.classList.toggle('active', enabled);
-        statusText.textContent = enabled ? '맞춤법 검사 켜짐' : '맞춤법 검사 꺼짐';
-      }
-
-      function setDarkMode(enabled) {
-        body.classList.toggle('dark', enabled);
-        darkModeToggle.classList.toggle('active', enabled);
-        statusText.textContent = enabled ? '다크모드 켜짐' : '다크모드 꺼짐';
       }
 
       function applyFontFamily(fontName) {
@@ -536,21 +666,185 @@
         editor.focus();
       }
 
-      editor.addEventListener('input', updateStats);
+      function setSpellcheck(enabled) {
+        editor.spellcheck = enabled;
+        spellToggle.classList.toggle('active', enabled);
+        setStatus(enabled ? '맞춤법 검사 켜짐' : '맞춤법 검사 꺼짐');
+      }
 
-      document.querySelectorAll('[data-action]').forEach((button) => {
+      function setDarkMode(enabled) {
+        document.body.classList.toggle('dark', enabled);
+        darkModeToggle.classList.toggle('active', enabled);
+        setStatus(enabled ? '다크모드 켜짐' : '다크모드 꺼짐');
+      }
+
+      function insertTable() {
+        const html = '<table style="width: 100%; border-collapse: collapse; margin: 12px 0;">' +
+          '<tr><td style="border: 1px solid #c8d1dc; padding: 8px;">&nbsp;</td><td style="border: 1px solid #c8d1dc; padding: 8px;">&nbsp;</td></tr>' +
+          '<tr><td style="border: 1px solid #c8d1dc; padding: 8px;">&nbsp;</td><td style="border: 1px solid #c8d1dc; padding: 8px;">&nbsp;</td></tr>' +
+          '</table>';
+        document.execCommand('insertHTML', false, html);
+        editor.focus();
+      }
+
+      function insertImageFromFile(file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = '<img src="' + e.target.result + '" alt="삽입 이미지" style="max-width: 320px; border-radius: 10px; margin: 12px 0; display: block;" />';
+          document.execCommand('insertHTML', false, img);
+          editor.focus();
+          setStatus('이미지가 문서에 삽입되었습니다.');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function addLink() {
+        const url = prompt('링크 URL을 입력하세요:', 'https://');
+        if (!url) return;
+        document.execCommand('createLink', false, url);
+        editor.focus();
+      }
+
+      function insertPageBreak() {
+        document.execCommand('insertHTML', false, '<div class="page-break"></div><p></p>');
+        editor.focus();
+      }
+
+      function insertComment() {
+        const text = prompt('주석 내용을 입력하세요:', '코멘트');
+        if (!text) return;
+        const html = '<span class="comment-flag">[' + text + ']</span> ';
+        document.execCommand('insertHTML', false, html);
+        editor.focus();
+      }
+
+      function insertCitation() {
+        const val = prompt('출처를 입력하세요:', '출처:');
+        if (!val) return;
+        document.execCommand('insertHTML', false, '<span class="citation">[' + val + ']</span>');
+        editor.focus();
+      }
+
+      function insertFootnote() {
+        document.execCommand('insertHTML', false, '<sup style="font-size: 11px; color: #2a6df4;">[각주]</sup>');
+        editor.focus();
+      }
+
+      function insertPageMark() {
+        document.execCommand('insertHTML', false, '<span style="color:#2a6df4; font-weight:700;">[페이지 번호]</span>');
+        editor.focus();
+      }
+
+      function changePagePadding(size) {
+        const pagePadding = {
+          narrow: '18px 22px',
+          normal: '32px 38px',
+          wide: '48px 56px'
+        };
+        editor.style.padding = pagePadding[size];
+      }
+
+      function setOrientation(mode) {
+        if (mode === 'landscape') {
+          page.style.maxWidth = '1200px';
+          page.style.minHeight = '640px';
+          setStatus('가로 방향으로 변경됨');
+        } else {
+          page.style.maxWidth = '1080px';
+          page.style.minHeight = '860px';
+          setStatus('세로 방향으로 변경됨');
+        }
+      }
+
+      function toggleColumns() {
+        const current = editor.style.columnCount;
+        editor.style.columnCount = current === '2' ? '1' : '2';
+        editor.style.columnGap = '24px';
+        setStatus(current === '2' ? '1단 보기로 전환' : '2단 보기로 전환');
+      }
+
+      function setTheme(theme) {
+        document.body.classList.toggle('dark', theme === 'dark');
+        darkModeToggle.classList.toggle('active', theme === 'dark');
+        setStatus(theme === 'dark' ? '다크 테마 적용' : '라이트 테마 적용');
+      }
+
+      function toggleRuler() {
+        ruler.classList.toggle('show');
+        setStatus(ruler.classList.contains('show') ? '눈금자를 표시합니다.' : '눈금자를 숨깁니다.');
+      }
+
+      function readingMode() {
+        page.classList.toggle('reading');
+        setStatus(page.classList.contains('reading') ? '읽기 모드 켜짐' : '읽기 모드 꺼짐');
+      }
+
+      function toggleTrackChanges() {
+        editor.classList.toggle('track-changes');
+        const active = editor.classList.contains('track-changes');
+        if (active) {
+          const selected = window.getSelection();
+          if (selected && selected.rangeCount > 0) {
+            const range = selected.getRangeAt(0);
+            const span = document.createElement('span');
+            span.className = 'track';
+            span.textContent = selected.toString() || '변경';
+            range.surroundContents(span);
+          } else {
+            document.execCommand('insertHTML', false, '<span class="track">변경 내용</span>');
+          }
+        }
+        setStatus(active ? '변경 추적 켜짐' : '변경 추적 꺼짐');
+      }
+
+      function checkSpelling() {
+        const text = editor.innerText;
+        const words = text.split(/\s+/).filter(Boolean).length;
+        setStatus(`${words}개 단어를 확인했습니다. 맞춤법 기능은 브라우저 기본 검사에 따라 동작합니다.`);
+      }
+
+      function addCustomFont(file) {
+        const fontName = file.name.replace(/\.[^/.]+$/, '');
+        const fontUrl = URL.createObjectURL(file);
+        const fontFace = new FontFace(fontName, `url(${fontUrl})`);
+
+        fontFace.load().then((loadedFace) => {
+          document.fonts.add(loadedFace);
+          const option = document.createElement('option');
+          option.value = fontName;
+          option.textContent = fontName;
+          fontFamilySelect.appendChild(option);
+          fontFamilySelect.value = fontName;
+          applyFontFamily(fontName);
+          setStatus(`${fontName} 글꼴이 적용되었습니다.`);
+        }).catch(() => {
+          setStatus(`${file.name} 글꼴을 불러오지 못했습니다.`);
+        });
+      }
+
+      document.querySelectorAll('.tab-btn').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach((btn) => btn.classList.remove('active'));
+          document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
+          tab.classList.add('active');
+          const panelName = tab.dataset.tab;
+          document.querySelector('[data-panel="' + panelName + '"]').classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('[data-command]').forEach((button) => {
         button.addEventListener('click', () => {
-          const action = button.dataset.action;
+          const command = button.dataset.command;
 
-          if (action === 'foreColor') {
-            const color = prompt('글자색을 입력하세요 (예: #2563eb, red):', '#1f2937');
+          if (command === 'foreColor') {
+            const color = prompt('글자색을 입력하세요 (예: #2a6df4, red):', '#2a6df4');
             if (color) document.execCommand('foreColor', false, color);
             editor.focus();
             updateStats();
             return;
           }
 
-          if (action === 'hiliteColor') {
+          if (command === 'hiliteColor') {
             const color = prompt('형광펜 색을 입력하세요 (예: yellow):', 'yellow');
             if (color) document.execCommand('hiliteColor', false, color);
             editor.focus();
@@ -558,18 +852,129 @@
             return;
           }
 
-          document.execCommand(action, false, null);
+          if (command === 'insertLink') {
+            addLink();
+            return;
+          }
+
+          if (command === 'insertImage') {
+            imageFileInput.click();
+            return;
+          }
+
+          if (command === 'insertTable') {
+            insertTable();
+            return;
+          }
+
+          if (command === 'insertPageBreak') {
+            insertPageBreak();
+            return;
+          }
+
+          if (command === 'insertComment') {
+            insertComment();
+            return;
+          }
+
+          if (command === 'insertCitation') {
+            insertCitation();
+            return;
+          }
+
+          if (command === 'insertFootnote') {
+            insertFootnote();
+            return;
+          }
+
+          if (command === 'insertPageMark') {
+            insertPageMark();
+            return;
+          }
+
+          if (command === 'setThemeLight') {
+            setTheme('light');
+            return;
+          }
+
+          if (command === 'setThemeDark') {
+            setTheme('dark');
+            return;
+          }
+
+          if (command === 'pageColor') {
+            const color = prompt('페이지 배경색을 입력하세요 (예: #ffffff, #f4f7fb):', '#ffffff');
+            if (color) page.style.background = color;
+            return;
+          }
+
+          if (command === 'marginNarrow') {
+            changePagePadding('narrow');
+            return;
+          }
+
+          if (command === 'marginNormal') {
+            changePagePadding('normal');
+            return;
+          }
+
+          if (command === 'marginWide') {
+            changePagePadding('wide');
+            return;
+          }
+
+          if (command === 'landscape') {
+            setOrientation('landscape');
+            return;
+          }
+
+          if (command === 'portrait') {
+            setOrientation('portrait');
+            return;
+          }
+
+          if (command === 'toggleColumns') {
+            toggleColumns();
+            return;
+          }
+
+          if (command === 'toggleRuler') {
+            toggleRuler();
+            return;
+          }
+
+          if (command === 'readingMode') {
+            readingMode();
+            return;
+          }
+
+          if (command === 'toggleTrack') {
+            toggleTrackChanges();
+            return;
+          }
+
+          if (command === 'checkSpelling') {
+            checkSpelling();
+            return;
+          }
+
+          document.execCommand(command, false, null);
           editor.focus();
           updateStats();
         });
       });
 
-      fontFamilySelect.addEventListener('change', (e) => {
-        applyFontFamily(e.target.value);
+      fontFamilySelect.addEventListener('change', (e) => applyFontFamily(e.target.value));
+      fontSizeSelect.addEventListener('change', (e) => applyFontSize(e.target.value));
+      lineSpacingSelect.addEventListener('change', (e) => {
+        editor.style.lineHeight = e.target.value;
+        setStatus(`줄 간격 ${e.target.value}배로 적용됨`);
       });
 
-      fontSizeSelect.addEventListener('change', (e) => {
-        applyFontSize(e.target.value);
+      zoomSelect.addEventListener('change', (e) => {
+        const value = Number(e.target.value);
+        editor.style.zoom = value;
+        setStatus(`확대 비율 ${value * 100}%`);
       });
 
       spellToggle.addEventListener('click', () => {
@@ -582,9 +987,21 @@
         setDarkMode(enabled);
       });
 
+      imageFileInput.addEventListener('change', (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) insertImageFromFile(file);
+        event.target.value = '';
+      });
+
+      fontFileInput.addEventListener('change', (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) addCustomFont(file);
+        event.target.value = '';
+      });
+
       document.getElementById('newDocBtn').addEventListener('click', () => {
-        const confirmed = confirm('현재 문서를 초기화하고 새 문서를 시작할까요?');
-        if (!confirmed) return;
+        const ok = confirm('현재 문서를 초기화하고 새 문서를 시작할까요?');
+        if (!ok) return;
         editor.innerHTML = '<p style="margin: 0;">새 문서를 시작하세요.</p>';
         updateStats();
         editor.focus();
@@ -598,34 +1015,12 @@
         a.download = 'document.html';
         a.click();
         URL.revokeObjectURL(a.href);
-        statusText.textContent = '문서 다운로드 완료';
+        setStatus('문서 다운로드 완료');
       });
 
-      fontFileInput.addEventListener('change', (event) => {
-        const files = Array.from(event.target.files || []);
-
-        files.forEach((file) => {
-          const fontName = file.name.replace(/\.[^/.]+$/, '');
-          const fontUrl = URL.createObjectURL(file);
-          const fontFace = new FontFace(fontName, `url(${fontUrl})`);
-
-          fontFace.load().then((loadedFace) => {
-            document.fonts.add(loadedFace);
-            const currentFont = fontFamilySelect.value;
-            const option = document.createElement('option');
-            option.value = fontName;
-            option.textContent = fontName;
-            fontFamilySelect.appendChild(option);
-            fontFamilySelect.value = fontName;
-            applyFontFamily(fontName);
-            statusText.textContent = `${fontName} 글꼴이 추가되었습니다.`;
-          }).catch(() => {
-            statusText.textContent = `${file.name} 글꼴을 적용할 수 없습니다.`;
-          });
-        });
-
-        event.target.value = '';
-      });
+      editor.addEventListener('input', updateStats);
+      editor.addEventListener('keyup', updateStats);
+      editor.addEventListener('mouseup', updateStats);
 
       setSpellcheck(true);
       setDarkMode(false);
