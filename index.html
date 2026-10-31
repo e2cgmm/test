@@ -3,332 +3,537 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Word App</title>
+    <title>Microsoft Word Style Editor</title>
     <style>
       :root {
-        --bg: #f3f4f6;
+        --bg: #f2f4f8;
+        --bg-2: #edf2f7;
         --panel: #ffffff;
-        --panel-2: #f8fafc;
-        --line: #dfe7ef;
-        --text: #172033;
-        --muted: #6b7280;
-        --primary: #2563eb;
-        --primary-soft: #dbeafe;
-        --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+        --panel-alt: #f8fafc;
+        --line: #dfe8f1;
+        --line-strong: #c9d4e3;
+        --text: #1b2430;
+        --muted: #5d6574;
+        --primary: #2b6cf6;
+        --primary-soft: #dfeaff;
+        --success: #2e7d32;
+        --warning: #f5b700;
+        --danger: #d93025;
+        --shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+        --editor-bg: #ffffff;
+        --header-bg: #f5f7fb;
+        --tab-bg: #eef4ff;
+        --ribbon-bg: #edf2fb;
+        --toolbar-bg: #f8fafc;
+        --dark-bg: #121922;
+        --dark-panel: #1a2330;
+        --dark-editor: #171d29;
+        --dark-text: #ecf2ff;
+        --dark-muted: #a8b6c9;
+        --dark-line: #2d3a4d;
+      }
+
+      body.dark {
+        --bg: #101720;
+        --bg-2: #16202d;
+        --panel: #1c2734;
+        --panel-alt: #1b2530;
+        --line: #2e3d4f;
+        --line-strong: #405671;
+        --text: #edf4ff;
+        --muted: #b3bfd3;
+        --primary: #72a9ff;
+        --primary-soft: rgba(114, 169, 255, 0.18);
+        --success: #66d97f;
+        --warning: #ffd75a;
+        --danger: #ff7d70;
+        --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        --editor-bg: #1a2330;
+        --header-bg: #141d2a;
+        --tab-bg: #1f2b3a;
+        --ribbon-bg: #182434;
+        --toolbar-bg: #182535;
       }
 
       * { box-sizing: border-box; }
 
-      body {
+      html, body {
         margin: 0;
-        font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 130px);
+        height: 100%;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: var(--bg);
         color: var(--text);
+      }
+
+      body {
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      button, input, select {
+        font: inherit;
       }
 
       .app {
-        max-width: 1200px;
-        margin: 24px auto;
-        padding: 0 18px 40px;
+        width: 100%;
+        min-height: 100vh;
+        padding: 10px 18px 30px;
       }
 
-      .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 14px 18px;
-        background: rgba(255,255,255,0.8);
+      .word-shell {
+        max-width: 1360px;
+        margin: 0 auto;
+        background: var(--panel);
         border: 1px solid var(--line);
         border-radius: 18px;
-        backdrop-filter: blur(12px);
+        overflow: hidden;
         box-shadow: var(--shadow);
       }
 
-      .brand {
+      .titlebar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: var(--header-bg);
+        border-bottom: 1px solid var(--line);
+        padding: 10px 18px;
+      }
+
+      .window-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .circle {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .circle.red { background: #ff5f57; }
+      .circle.yellow { background: #ffbd2f; }
+      .circle.green { background: #28c840; }
+
+      .app-name {
         display: flex;
         align-items: center;
         gap: 12px;
+        flex: 1;
+        justify-content: center;
+      }
+
+      .app-logo {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #39a0ff, #0a4bb6);
+        color: white;
         font-weight: 700;
       }
 
-      .brand-badge {
-        width: 38px;
-        height: 38px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #60a5fa, #2563eb);
-        display: grid;
-        place-items: center;
-        color: white;
-        font-size: 20px;
-        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.32);
+      .app-name strong {
+        font-size: 15px;
       }
 
-      .actions {
+      .top-actions {
         display: flex;
-        gap: 10px;
         align-items: center;
-        flex-wrap: wrap;
+        gap: 10px;
       }
 
-      button {
+      .icon-btn, .tool-btn, .tab-btn, .switch-btn {
         border: 1px solid var(--line);
-        background: white;
+        background: var(--panel);
         color: var(--text);
         border-radius: 10px;
-        padding: 9px 12px;
+        padding: 8px 12px;
         cursor: pointer;
-        font-size: 14px;
-        transition: 0.2s ease;
+        transition: 0.15s ease;
       }
 
-      button:hover {
-        border-color: #bfd0ee;
-        background: var(--panel-2);
+      .tool-btn:hover, .icon-btn:hover, .tab-btn:hover, .switch-btn:hover {
+        border-color: var(--line-strong);
+        background: var(--panel-alt);
       }
 
-      .primary {
+      .primary-btn {
         background: var(--primary);
-        border-color: var(--primary);
         color: white;
+        border-color: var(--primary);
       }
 
-      .primary:hover {
-        background: #1d4ed8;
-        border-color: #1d4ed8;
+      .primary-btn:hover {
+        filter: brightness(0.95);
+      }
+
+      .ribbon {
+        background: var(--ribbon-bg);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 18px 0;
+      }
+
+      .tabs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .tab-btn {
+        background: transparent;
+        border: 1px solid transparent;
+        color: var(--muted);
+        padding: 8px 14px;
+        font-weight: 600;
+      }
+
+      .tab-btn.active {
+        background: var(--tab-bg);
+        border-color: var(--line);
+        color: var(--text);
       }
 
       .toolbar {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
         align-items: center;
-        padding: 12px 16px;
-        margin-top: 18px;
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        box-shadow: var(--shadow);
+        gap: 10px;
+        flex-wrap: wrap;
+        background: var(--toolbar-bg);
+        border-top: 1px solid var(--line);
+        padding: 10px 12px;
+      }
+
+      .tool-separator {
+        width: 1px;
+        height: 30px;
+        background: var(--line);
+        margin: 0 4px;
       }
 
       .group {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding-right: 8px;
-        border-right: 1px solid var(--line);
+        gap: 6px;
       }
 
-      .group:last-child {
-        border-right: none;
-      }
-
-      .tool-btn {
-        min-width: 38px;
-        padding: 8px 10px;
-      }
-
-      select {
+      .dropdown {
         border: 1px solid var(--line);
-        background: white;
-        color: var(--text);
-        border-radius: 10px;
-        padding: 8px 10px;
-        font-size: 14px;
-      }
-
-      .document {
-        margin-top: 18px;
         background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        box-shadow: var(--shadow);
-        overflow: hidden;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 8px 10px;
       }
 
-      .document-header {
+      .statusbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        padding: 14px 18px;
-        border-bottom: 1px solid var(--line);
-        background: #fbfdff;
-      }
-
-      .doc-title {
-        font-size: 14px;
-        color: var(--muted);
-        font-weight: 600;
-      }
-
-      .doc-meta {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        background: var(--panel-alt);
+        border-top: 1px solid var(--line);
+        padding: 10px 18px;
         color: var(--muted);
         font-size: 12px;
       }
 
-      .editor-wrap {
-        padding: 28px 34px 22px;
-        background: linear-gradient(180deg, #fff 0%, #fff 100%);
+      .status-ctrls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .toggle-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+      }
+
+      .switch {
+        position: relative;
+        width: 42px;
+        height: 24px;
+        border-radius: 999px;
+        background: #c9d2df;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .switch::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: white;
+        transition: 0.2s;
+      }
+
+      .switch.active {
+        background: var(--primary);
+      }
+
+      .switch.active::after {
+        left: 22px;
+      }
+
+      .workspace {
+        background: var(--bg-2);
+        padding: 16px 18px 18px;
+      }
+
+      .page {
+        max-width: 980px;
+        margin: 0 auto;
+        background: var(--editor-bg);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04);
+      }
+
+      .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 18px;
+      }
+
+      .page-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      .editor-container {
+        padding: 0 18px 18px;
       }
 
       .editor {
-        min-height: 620px;
-        padding: 44px 52px 32px;
+        min-height: 820px;
+        width: 100%;
         background: white;
-        border: 1px solid #e7edf3;
-        border-radius: 14px;
-        box-shadow: inset 0 1px 2px rgba(148,163,184,0.08);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: inset 0 1px 2px rgba(148,163,184,0.15);
+        padding: 42px 54px 36px;
         outline: none;
         line-height: 1.8;
         font-size: 18px;
+        color: #111827;
+        font-family: "Segoe UI", Arial, sans-serif;
+        transition: background 0.2s ease, color 0.2s ease;
       }
 
-      .editor:focus {
-        border-color: #c2d5ff;
-        box-shadow: 0 0 0 4px rgba(37,99,235,0.08), inset 0 1px 2px rgba(148,163,184,0.08);
+      body.dark .editor {
+        background: var(--dark-editor);
+        color: var(--dark-text);
       }
 
-      .footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 18px 18px;
-        color: var(--muted);
-        font-size: 12px;
+      .editor:empty:before {
+        content: "여기에 문서를 입력하세요";
+        color: #9aa5b1;
       }
 
-      @media (max-width: 700px) {
-        .header,
-        .document-header,
-        .footer {
-          flex-direction: column;
-          align-items: flex-start;
+      .font-upload {
+        display: none;
+      }
+
+      .hidden-file {
+        display: none;
+      }
+
+      @media (max-width: 900px) {
+        .titlebar {
+          flex-wrap: wrap;
         }
 
         .toolbar {
-          gap: 8px;
-        }
-
-        .editor-wrap {
-          padding: 18px 12px 16px;
+          overflow-x: auto;
         }
 
         .editor {
-          min-height: 420px;
-          padding: 24px 18px 20px;
-          font-size: 17px;
+          min-height: 560px;
+          padding: 26px 20px 20px;
         }
       }
     </style>
   </head>
   <body>
     <div class="app">
-      <header class="header">
-        <div class="brand">
-          <div class="brand-badge">W</div>
-          <div>Word App</div>
+      <div class="word-shell">
+        <div class="titlebar">
+          <div class="window-controls">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+          </div>
+
+          <div class="app-name">
+            <div class="app-logo">W</div>
+            <strong>Word App</strong>
+          </div>
+
+          <div class="top-actions">
+            <button class="icon-btn" id="newDocBtn">새 문서</button>
+            <button class="icon-btn primary-btn" id="downloadBtn">다운로드</button>
+          </div>
         </div>
 
-        <div class="actions">
-          <button id="newDocBtn">새 문서</button>
-          <button id="downloadBtn" class="primary">다운로드</button>
+        <div class="ribbon">
+          <div class="tabs">
+            <button class="tab-btn active">홈</button>
+            <button class="tab-btn">삽입</button>
+            <button class="tab-btn">디자인</button>
+            <button class="tab-btn">레이아웃</button>
+            <button class="tab-btn">참조</button>
+            <button class="tab-btn">검토</button>
+            <button class="tab-btn">보기</button>
+          </div>
+
+          <div class="toolbar">
+            <div class="group">
+              <select id="fontFamilySelect" class="dropdown" aria-label="글꼴 선택">
+                <option value="Segoe UI">Segoe UI</option>
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Tahoma">Tahoma</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Malgun Gothic">맑은 고딕</option>
+                <option value="NanumGothic">나눔고딕</option>
+              </select>
+
+              <select id="fontSizeSelect" class="dropdown" aria-label="글자 크기 선택">
+                <option value="">크기</option>
+                <option value="1">8pt</option>
+                <option value="2">10pt</option>
+                <option value="3">12pt</option>
+                <option value="4">14pt</option>
+                <option value="5">18pt</option>
+                <option value="6">24pt</option>
+                <option value="7">32pt</option>
+              </select>
+            </div>
+
+            <div class="tool-separator"></div>
+
+            <div class="group">
+              <button class="tool-btn" data-action="bold" title="굵게"><strong>B</strong></button>
+              <button class="tool-btn" data-action="italic" title="기울임"><em>I</em></button>
+              <button class="tool-btn" data-action="underline" title="밑줄"><span style="text-decoration: underline;">U</span></button>
+            </div>
+
+            <div class="tool-separator"></div>
+
+            <div class="group">
+              <button class="tool-btn" data-action="insertUnorderedList" title="글머리 기호">• 목록</button>
+              <button class="tool-btn" data-action="insertOrderedList" title="숫자 목록">1. 목록</button>
+            </div>
+
+            <div class="tool-separator"></div>
+
+            <div class="group">
+              <button class="tool-btn" data-action="justifyLeft" title="왼쪽 정렬">◀</button>
+              <button class="tool-btn" data-action="justifyCenter" title="중앙 정렬">☰</button>
+              <button class="tool-btn" data-action="justifyRight" title="오른쪽 정렬">▶</button>
+            </div>
+
+            <div class="tool-separator"></div>
+
+            <div class="group">
+              <button class="tool-btn" data-action="foreColor" title="글자색">A</button>
+              <button class="tool-btn" data-action="hiliteColor" title="형광펜">형광</button>
+            </div>
+
+            <div class="tool-separator"></div>
+
+            <div class="group">
+              <label class="tool-btn" for="fontFileInput" title="글꼴 파일 추가" style="display: inline-flex; align-items: center; justify-content: center;">글꼴 추가</label>
+              <input id="fontFileInput" class="hidden-file" type="file" accept=".ttf,.otf,.woff,.woff2" multiple />
+            </div>
+          </div>
         </div>
-      </header>
 
-      <div class="toolbar">
-        <div class="group">
-          <button class="tool-btn" data-action="bold" title="굵게"><strong>B</strong></button>
-          <button class="tool-btn" data-action="italic" title="기울임"><em>I</em></button>
-          <button class="tool-btn" data-action="underline" title="밑줄"><span style="text-decoration: underline;">U</span></button>
+        <div class="statusbar">
+          <div class="status-ctrls">
+            <div class="toggle-wrap">
+              <span>맞춤법 검사</span>
+              <button id="spellToggle" class="switch active" type="button" aria-label="맞춤법 검사 온오프"></button>
+            </div>
+
+            <div class="toggle-wrap">
+              <span>다크모드</span>
+              <button id="darkModeToggle" class="switch" type="button" aria-label="다크모드 온오프"></button>
+            </div>
+          </div>
+
+          <div id="statusText">문서 준비 완료</div>
         </div>
 
-        <div class="group">
-          <button class="tool-btn" data-action="insertUnorderedList" title="글머리 기호">• 목록</button>
-          <button class="tool-btn" data-action="insertOrderedList" title="번호 목록">1. 목록</button>
-        </div>
+        <div class="workspace">
+          <div class="page">
+            <div class="page-header">
+              <div class="page-title">문서 1</div>
+              <div id="docStats" style="color: var(--muted); font-size: 12px;">0단어 / 0자</div>
+            </div>
 
-        <div class="group">
-          <select id="fontSizeSelect" aria-label="글자 크기">
-            <option value="">글자 크기</option>
-            <option value="1">8pt</option>
-            <option value="2">10pt</option>
-            <option value="3">12pt</option>
-            <option value="4">14pt</option>
-            <option value="5">18pt</option>
-            <option value="6">24pt</option>
-            <option value="7">32pt</option>
-          </select>
-
-          <select id="fontFamilySelect" aria-label="글꼴">
-            <option value="">글꼴</option>
-            <option value="Arial">Arial</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Tahoma">Tahoma</option>
-            <option value="NanumGothic, sans-serif">나눔고딕</option>
-          </select>
-        </div>
-
-        <div class="group">
-          <button class="tool-btn" data-action="justifyLeft" title="왼쪽 정렬">◀</button>
-          <button class="tool-btn" data-action="justifyCenter" title="가운데 정렬">▶</button>
-          <button class="tool-btn" data-action="justifyRight" title="오른쪽 정렬">⊢</button>
-        </div>
-
-        <div class="group">
-          <button class="tool-btn" data-action="foreColor" title="글자색">A</button>
-          <button class="tool-btn" data-action="hiliteColor" title="형광펜">형광</button>
+            <div class="editor-container">
+              <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="문서 편집기">
+                <p style="margin: 0 0 10px 0;"><strong>마이크로소프트 워드 스타일 문서</strong></p>
+                <p style="margin: 0 0 10px 0;">이 문서는 Word와 비슷한 인터페이스로 구성되었으며, 맞춤법 검사, 다크모드, 글꼴 추가 기능을 지원합니다.</p>
+                <p style="margin: 0 0 10px 0;">글꼴 파일을 업로드하면 브라우저에 적용되며, 편집 도구를 사용해 문서를 꾸밀 수 있습니다.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <main class="document">
-        <div class="document-header">
-          <div class="doc-title">문서</div>
-          <div class="doc-meta">
-            <span id="wordCount">0단어</span>
-            <span id="charCount">0자</span>
-          </div>
-        </div>
-
-        <div class="editor-wrap">
-          <div
-            id="editor"
-            class="editor"
-            contenteditable="true"
-            spellcheck="true"
-            aria-label="문서 편집기"
-          >
-            <p style="margin: 0 0 12px 0;"><strong>안녕하세요.</strong> 여기에서 문서를 작성해보세요.</p>
-            <p style="margin: 0 0 12px 0;">이 앱은 간단한 워드 형식의 편집기입니다. 굵게, 기울임, 밑줄, 정렬, 목록, 글자 크기 등 기본 기능을 지원합니다.</p>
-            <p style="margin: 0 0 12px 0;">자유롭게 내용을 수정하고, 필요할 때 다운로드 버튼으로 문서를 저장해 보세요.</p>
-          </div>
-        </div>
-
-        <div class="footer">
-          <span>작성 중</span>
-          <span>Word App • Simple Editor</span>
-        </div>
-      </main>
     </div>
 
     <script>
       const editor = document.getElementById('editor');
-      const wordCount = document.getElementById('wordCount');
-      const charCount = document.getElementById('charCount');
-      const fontSizeSelect = document.getElementById('fontSizeSelect');
+      const docStats = document.getElementById('docStats');
       const fontFamilySelect = document.getElementById('fontFamilySelect');
+      const fontSizeSelect = document.getElementById('fontSizeSelect');
+      const spellToggle = document.getElementById('spellToggle');
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const fontFileInput = document.getElementById('fontFileInput');
+      const statusText = document.getElementById('statusText');
+      const body = document.body;
 
       function updateStats() {
         const text = editor.innerText.replace(/\s+/g, ' ').trim();
         const words = text ? text.split(' ').length : 0;
-        const chars = editor.innerText.replace(/\n/g, '').length;
-        wordCount.textContent = `${words}단어`;
-        charCount.textContent = `${chars}자`;
+        const chars = editor.innerText.length;
+        docStats.textContent = `${words}단어 / ${chars}자`;
+      }
+
+      function setSpellcheck(enabled) {
+        editor.spellcheck = enabled;
+        spellToggle.classList.toggle('active', enabled);
+        statusText.textContent = enabled ? '맞춤법 검사 켜짐' : '맞춤법 검사 꺼짐';
+      }
+
+      function setDarkMode(enabled) {
+        body.classList.toggle('dark', enabled);
+        darkModeToggle.classList.toggle('active', enabled);
+        statusText.textContent = enabled ? '다크모드 켜짐' : '다크모드 꺼짐';
+      }
+
+      function applyFontFamily(fontName) {
+        if (!fontName) return;
+        document.execCommand('fontName', false, fontName);
+        editor.focus();
+      }
+
+      function applyFontSize(sizeValue) {
+        if (!sizeValue) return;
+        document.execCommand('fontSize', false, sizeValue);
+        editor.focus();
       }
 
       editor.addEventListener('input', updateStats);
@@ -338,9 +543,10 @@
           const action = button.dataset.action;
 
           if (action === 'foreColor') {
-            const color = prompt('글자색을 입력하세요 (예: #2563eb, red):', '#2563eb');
+            const color = prompt('글자색을 입력하세요 (예: #2563eb, red):', '#1f2937');
             if (color) document.execCommand('foreColor', false, color);
             editor.focus();
+            updateStats();
             return;
           }
 
@@ -348,6 +554,7 @@
             const color = prompt('형광펜 색을 입력하세요 (예: yellow):', 'yellow');
             if (color) document.execCommand('hiliteColor', false, color);
             editor.focus();
+            updateStats();
             return;
           }
 
@@ -357,31 +564,30 @@
         });
       });
 
-      fontSizeSelect.addEventListener('change', (e) => {
-        const value = e.target.value;
-        if (value) {
-          document.execCommand('fontSize', false, value);
-          editor.focus();
-          updateStats();
-        }
+      fontFamilySelect.addEventListener('change', (e) => {
+        applyFontFamily(e.target.value);
       });
 
-      fontFamilySelect.addEventListener('change', (e) => {
-        const value = e.target.value;
-        if (value) {
-          document.execCommand('fontName', false, value);
-          editor.focus();
-          updateStats();
-        }
+      fontSizeSelect.addEventListener('change', (e) => {
+        applyFontSize(e.target.value);
+      });
+
+      spellToggle.addEventListener('click', () => {
+        const enabled = !spellToggle.classList.contains('active');
+        setSpellcheck(enabled);
+      });
+
+      darkModeToggle.addEventListener('click', () => {
+        const enabled = !darkModeToggle.classList.contains('active');
+        setDarkMode(enabled);
       });
 
       document.getElementById('newDocBtn').addEventListener('click', () => {
-        const confirmed = confirm('새 문서를 작성하시겠습니까? 현재 내용을 지웁니다.');
-        if (confirmed) {
-          editor.innerHTML = '<p style="margin: 0;">새 문서를 시작하세요.</p>';
-          updateStats();
-          editor.focus();
-        }
+        const confirmed = confirm('현재 문서를 초기화하고 새 문서를 시작할까요?');
+        if (!confirmed) return;
+        editor.innerHTML = '<p style="margin: 0;">새 문서를 시작하세요.</p>';
+        updateStats();
+        editor.focus();
       });
 
       document.getElementById('downloadBtn').addEventListener('click', () => {
@@ -392,8 +598,37 @@
         a.download = 'document.html';
         a.click();
         URL.revokeObjectURL(a.href);
+        statusText.textContent = '문서 다운로드 완료';
       });
 
+      fontFileInput.addEventListener('change', (event) => {
+        const files = Array.from(event.target.files || []);
+
+        files.forEach((file) => {
+          const fontName = file.name.replace(/\.[^/.]+$/, '');
+          const fontUrl = URL.createObjectURL(file);
+          const fontFace = new FontFace(fontName, `url(${fontUrl})`);
+
+          fontFace.load().then((loadedFace) => {
+            document.fonts.add(loadedFace);
+            const currentFont = fontFamilySelect.value;
+            const option = document.createElement('option');
+            option.value = fontName;
+            option.textContent = fontName;
+            fontFamilySelect.appendChild(option);
+            fontFamilySelect.value = fontName;
+            applyFontFamily(fontName);
+            statusText.textContent = `${fontName} 글꼴이 추가되었습니다.`;
+          }).catch(() => {
+            statusText.textContent = `${file.name} 글꼴을 적용할 수 없습니다.`;
+          });
+        });
+
+        event.target.value = '';
+      });
+
+      setSpellcheck(true);
+      setDarkMode(false);
       updateStats();
     </script>
   </body>
